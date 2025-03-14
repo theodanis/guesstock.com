@@ -6,16 +6,16 @@ const PORT = process.env.PORT || 3000;
 
 // CORS yapılandırması
 const corsOptions = {
-  origin: 'https://www.guesstock.com', // Yalnızca bu domain'e izin ver
-  methods: ['GET', 'POST'], // İzin verilen HTTP metotları
-  allowedHeaders: ['Content-Type'], // İzin verilen başlıklar
+  origin: '*', // Geçici olarak herkese açıyoruz, testten sonra domain'i belirtebilirsin
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Access-Control-Allow-Origin'],
 };
 
 app.use(cors(corsOptions)); // CORS'u aktif hale getir
 
 // API endpoint'iniz
 app.get('/stock-data/:symbol', async (req, res) => {
-    const stockSymbol = req.params.symbol;
+    const stockSymbol = req.params.symbol.toUpperCase(); // Hisse kodunu büyük harfe çevir
 
     try {
         const response = await axios.get(`https://query1.finance.yahoo.com/v8/finance/chart/${stockSymbol}?interval=1d&range=5y`);
@@ -31,6 +31,7 @@ app.get('/stock-data/:symbol', async (req, res) => {
             res.status(500).json({ message: 'Veri alınamadı' });
         }
     } catch (error) {
+        console.error("API hatası:", error.message);
         res.status(500).json({ message: 'API hatası', error: error.message });
     }
 });
