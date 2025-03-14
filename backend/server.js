@@ -3,7 +3,7 @@ const axios = require('axios');
 const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
-app.use(cors({ origin: '*' }));  // CORS ayarlarını yapıyoruz
+app.use(cors());  // CORS ayarlarını yapıyoruz
 
 app.get('/stock-data/:symbol', async (req, res) => {
     const stockSymbol = req.params.symbol;
