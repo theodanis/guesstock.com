@@ -1,10 +1,19 @@
+const cors = require('cors');
 const express = require('express');
 const axios = require('axios');
-const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3000;
-app.use(cors());  // CORS ayarlarını yapıyoruz
 
+// CORS yapılandırması
+const corsOptions = {
+  origin: 'https://www.guesstock.com', // Yalnızca bu domain'e izin ver
+  methods: ['GET', 'POST'], // İzin verilen HTTP metotları
+  allowedHeaders: ['Content-Type'], // İzin verilen başlıklar
+};
+
+app.use(cors(corsOptions)); // CORS'u aktif hale getir
+
+// API endpoint'iniz
 app.get('/stock-data/:symbol', async (req, res) => {
     const stockSymbol = req.params.symbol;
 
