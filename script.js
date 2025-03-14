@@ -1,3 +1,4 @@
+let selectedCountry = "US"; 
 let selectedStock = "";
 let timeframe = "5Y";
 let score = 0;
@@ -24,7 +25,7 @@ function formatDate(timestamp) {
 
 // 📌 Hisse fiyatlarını Yahoo Finance API ile çekmek için bir fonksiyon
 async function fetchStockData(stockSymbol) {
-    const endpoint = `http://localhost:3000/stock-data/${stockSymbol}`;
+    const endpoint = `https://guesstockcom.herokuapp.com/stock-data/${stockSymbol}`;
     const response = await fetch(endpoint);
     const data = await response.json();
 
