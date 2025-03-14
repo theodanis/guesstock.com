@@ -5,7 +5,7 @@ let score = 0;
 let optionsSelected = false;  // Şık seçildi mi kontrol etmek için
 let gameEnded = false; // Oyun bitti mi kontrol etmek için
 
-// 📌 Zaman formatını ayarlama fonksiyonu
+// 📌 Zaman formatını asdsyarlama fonksiyonu
 function formatDate(timestamp) {
     const date = new Date(timestamp * 1000); // Unix timestamp'ı milisaniyeye çevir
     if (isNaN(date)) {
