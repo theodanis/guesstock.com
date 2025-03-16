@@ -3,9 +3,9 @@ let selectedStock = "";
 let timeframe = "5Y";
 let score = 0;
 let optionsSelected = false;  // Şık seçildi mi kontrol etmek için
-let gameEnded = false; // Oyun bitti mi kontrol etmek için
 let totalQuestions = 0; // Kullanıcının seçtiği soru sayısı
-let currentQuestion = 0;
+let currentQuestion = 0; // Şu anki soru numarası
+let gameEnded = false;  // Oyun bitti mi kontrol etmek için
 function setQuestionCount() {
     totalQuestions = parseInt(document.getElementById("questionCount").value);
     if (totalQuestions > 0) {
@@ -18,26 +18,29 @@ function setQuestionCount() {
     }
 }
 
+
 // Oyun başladığında ilk soruyu oluştur
 function startGame() {
     resetGame();
     generateStock();
 }
 
-// Oyun sonunda pop-up gösterme
+
 function showFinalScore() {
     document.getElementById("finalScore").textContent = score;
     const scorePopup = new bootstrap.Modal(document.getElementById('scorePopup'));
     scorePopup.show();
 }
+// Oyun bitişini kontrol et
 
 // Oyun bitişini kontrol et
 function endGame() {
-    currentQuestion++;
+    currentQuestion++;  // Bir soru tamamlandığında numarayı artır
     if (currentQuestion >= totalQuestions) {
-        showFinalScore();
+        showFinalScore();  // Tüm sorular bittiyse popup göster
+        gameEnded = true;   // Oyun bitti
     } else {
-        resetGame();
+        resetGame();  // Yeni soru oluştur
     }
 }
 // 📌 Zaman formatını asdsyarlama fonksiyonu
@@ -177,7 +180,7 @@ function generateOptions() {
     document.getElementById("guessInput").disabled = true;
 }
 function checkGuess() {
-    if (gameEnded || optionsSelected) return;
+    if (gameEnded || optionsSelected) return;  // Oyun bitti veya seçenek seçildiyse işlem yapma
 
     const guess = document.getElementById("guessInput").value.toUpperCase();
     const message = document.getElementById("resultMessage");
@@ -193,7 +196,7 @@ function checkGuess() {
     }
 
     document.getElementById("score").textContent = score;
-    endGame();
+    endGame();  // Soruyu bitir
 }
 
 function checkOptionGuess(selected) {
@@ -212,11 +215,10 @@ function checkOptionGuess(selected) {
     }
 
     document.getElementById("score").textContent = score;
-    optionsSelected = true;
-
+    optionsSelected = true;  // Seçenekler seçildi
     document.getElementById("retryButton").classList.remove("d-none");
-    gameEnded = true;
-    disableButtons();
+    gameEnded = true;  // Oyun bitti
+    disableButtons();  // Butonları devre dışı bırak
 }
 
 
