@@ -24,19 +24,16 @@ function formatDate(timestamp) {
 }
 
 // 📌 Hisse fiyatlarını Yahoo Finance API ile çekmek için bir fonksiyon
-// 📌 Hisse fiyatlarını almak için dummy (sahte) veri
 async function fetchStockData(stockSymbol) {
     const currentDate = Math.floor(Date.now() / 1000); // Şu anki zaman, Unix timestamp olarak
     let dummyData = [];
     let step = 1; // Varsayılan olarak her gün veri ekle
 
-    // Seçilen zaman dilimine göre örnekleme adımını belirle
     if (timeframe === "3M") step = 3; // 3 günde bir
     if (timeframe === "1Y") step = 14; // 14 günde bir
     if (timeframe === "3Y") step = 30; // 30 günde bir
     if (timeframe === "5Y") step = 60; // 60 günde bir
 
-    // Kaç gün geriye gidileceğini belirle
     const totalDays = {
         "1M": 30,
         "3M": 90,
@@ -52,13 +49,11 @@ async function fetchStockData(stockSymbol) {
         });
     }
 
-    // Veriyi tarih sırasına göre düzenleyip döndür
     return dummyData.reverse().map(entry => ({
         date: new Date(entry.date * 1000),
         price: entry.price
     }));
 }
-
 
 // 📌 Zaman dilimini değiştir
 function setTimeframe(tf) {
@@ -84,127 +79,92 @@ const STOCKS_TR = [
     "PETKM.IS", "TUPRS.IS", "ZOREN.IS", "VERUS.IS", "BIMAS.IS"
 ];
 
-
 let selectedMarket = "US"; // Default olarak US seçili
 
-// 📌 Dropdown menüsüne göre hisse listesini değiştiren fonksiyon
 function changeStockMarket() {
-    selectedMarket = document.getElementById("stockSelect").value;  // Seçilen marketi al
+    selectedMarket = document.getElementById("stockSelect").value;
     resetGame();
-    generateStock();  // Hisseyi yeniden oluştur
+    generateStock();
 }
 
 // 📌 Hisseyi rastgele seçme fonksiyonu
-
-// 📌 Hisse Seçimi - Random Hisse Seçme Fonksiyonu
 async function generateStock() {
-    let stockList = selectedCountry === 'TR' ? STOCKS_TR : STOCKS_US;  // TR veya US hissesi
-    selectedStock = stockList[Math.floor(Math.random() * stockList.length)];  // Rastgele hisse seç
-    const stockData = await fetchStockData(selectedStock);  // Hisse verisini çek
+    let stockList = selectedCountry === 'TR' ? STOCKS_TR : STOCKS_US;
+    selectedStock = stockList[Math.floor(Math.random() * stockList.length)];
+    const stockData = await fetchStockData(selectedStock);
 
     if (stockData.length > 0) {
-        drawChart(stockData);  // Grafiği çiz
+        drawChart(stockData);
     } else {
         alert("Hisse verileri alınamadı!");
     }
 
-    // Başlangıç temizlik işlemleri
     document.getElementById("resultMessage").textContent = "";
     document.getElementById("guessInput").value = "";
     document.getElementById("retryButton").classList.add("d-none");
     document.getElementById("optionsContainer").classList.add("d-none");
-    enableButtons();  // Şıklar aktifken, tahmin butonlarını da aktif yap
-}
-
-
-
-// 📌 Şık oluşturma fonksiyonu
-// 📌 Şık oluşturma fonksiyonu
-// 📌 Şık oluşturma fonksiyonu
-// 📌 Kullanıcı seçiminden sonra, selectedCountry'yi güncelleme
-function updateCountrySelection() {
-    const countrySelect = document.getElementById("countrySelect");
-    selectedCountry = countrySelect.value;  // TR veya US seçimi
-    resetGame(); // Oyunu sıfırla ve yeni kategoriye göre şıkları oluştur
+    enableButtons();
 }
 
 // 📌 Şık oluşturma fonksiyonu
 function generateOptions() {
     let options = new Set();
-    let stockList = selectedCountry === 'TR' ? STOCKS_TR : STOCKS_US;  // Seçilen ülkenin hisseleri
+    let stockList = selectedCountry === 'TR' ? STOCKS_TR : STOCKS_US;
 
-    options.add(selectedStock);  // Doğru hisseni şıklara ekle
+    options.add(selectedStock);
 
-    // Diğer 3 hisseyi random olarak seç
     while (options.size < 4) {
         const randomStock = stockList[Math.floor(Math.random() * stockList.length)];
-        if (randomStock !== selectedStock) options.add(randomStock);  // Aynı hisseyi tekrar ekleme
+        if (randomStock !== selectedStock) options.add(randomStock);
     }
 
-    options = Array.from(options); // Set'i array'e dönüştür
-    options = options.sort(() => Math.random() - 0.5); // Şıkları karıştır
+    options = Array.from(options);
+    options = options.sort(() => Math.random() - 0.5);
 
-    // Şıkları HTML'e yerleştirme
     const optionsContainer = document.getElementById("optionsContainer");
     const optionsButtons = document.getElementById("optionsButtons");
-    optionsButtons.innerHTML = ""; // Eski şıkları temizle
+    optionsButtons.innerHTML = "";
 
     options.forEach(stock => {
         const btn = document.createElement("button");
         btn.textContent = stock;
         btn.className = "btn btn-outline-primary";
-        btn.onclick = () => checkOptionGuess(stock);  // Şık seçildiğinde kontrol et
+        btn.onclick = () => checkOptionGuess(stock);
         optionsButtons.appendChild(btn);
     });
 
-    optionsContainer.classList.remove("d-none");  // Şıkları göster
+    optionsContainer.classList.remove("d-none");
 
-    // Take Clues butonunu devre dışı bırakıyoruz
     document.querySelector(".btn-warning").disabled = true;
     document.querySelector(".btn-dark").disabled = true;
-    document.getElementById("guessInput").disabled = true;  // Input'u da devre dışı bırak
+    document.getElementById("guessInput").disabled = true;
 }
 
-
-
-// 📌 Şık tahmini kontrol et
 function checkOptionGuess(selected) {
-    if (gameEnded) return; // Eğer oyun bitti ise geri dön
+    if (gameEnded) return;
 
     const message = document.getElementById("resultMessage");
 
-    // Şık doğruysa
     if (selected === selectedStock) {
         message.textContent = "✅ Doğru Tahmin! +2 Puan";
         message.style.color = "green";
         score += 2;
     } else {
-        // Şık yanlışsa
         message.textContent = `❌ Yanlış! Doğru cevap: ${selectedStock} (-2 Puan)`;
         message.style.color = "red";
         score -= 2;
     }
 
-    // Puanı güncelle
     document.getElementById("score").textContent = score;
-
-    // Şık seçildiğini işaretle
     optionsSelected = true;
 
-    // "Tekrar Sor" butonunu görünür yap
     document.getElementById("retryButton").classList.remove("d-none");
-
-    // Oyun bitmiş olarak işaretlensin
     gameEnded = true;
-
-    // Butonları devre dışı bırak
     disableButtons();
 }
 
-
-// 📌 Manuel tahmini kontrol et
 function checkGuess() {
-    if (gameEnded || optionsSelected) return; // Eğer şık seçildiyse "Tahmin Et" butonu çalışmasın
+    if (gameEnded || optionsSelected) return;
 
     const guess = document.getElementById("guessInput").value.toUpperCase();
     const message = document.getElementById("resultMessage");
@@ -223,58 +183,43 @@ function checkGuess() {
     endGame();
 }
 
-// 📌 Oyun bitirme işlemi
 function endGame() {
-    // Butonları ve input'u gizle
     document.getElementById("guessInput").classList.add("d-none");
     document.querySelector(".button-container").classList.add("d-none");
     document.getElementById("optionsContainer").classList.add("d-none");
-    
-    // Tekrar Sor butonunu göster
+
     document.getElementById("retryButton").classList.remove("d-none");
     gameEnded = true;
 }
 
 function resetGame() {
-    generateStock();  // Yeni hisse verisi oluştur
+    generateStock();
     document.getElementById("retryButton").classList.add("d-none");
     gameEnded = false;
 
-    // Butonları ve input'u geri göster
     document.getElementById("guessInput").classList.remove("d-none");
     document.querySelector(".button-container").classList.remove("d-none");
     document.getElementById("resultMessage").textContent = "";
     document.getElementById("guessInput").value = "";
-    optionsSelected = false; // Şık seçilmediğini sıfırla
-    
-    // Şıklar ve input'u tekrar aktif hale getir
+    optionsSelected = false;
+
     enableButtons();
 
-    // Take Clues ve Write Guess butonlarını tekrar aktif yap
-    document.querySelector(".btn-warning").disabled = false;  // Take Clues butonu
-    document.querySelector(".btn-dark").disabled = false;  // Write Guess butonu
+    document.querySelector(".btn-warning").disabled = false;
+    document.querySelector(".btn-dark").disabled = false;
 
-    // Şıklar container'ını gizle
     document.getElementById("optionsContainer").classList.add("d-none");
 }
 
-
-
 function disableButtons() {
-    // Şık butonlarını devre dışı bırak
     document.getElementById("optionsButtons").querySelectorAll("button").forEach(button => {
         button.disabled = true;
     });
 
-    // "Take Clues" ve "Write Guess" butonlarını devre dışı bırak
     document.querySelector(".btn-warning").disabled = true;
     document.querySelector(".btn-dark").disabled = true;
 }
 
-
-
-
-// 📌 Butonları aktif et
 function enableButtons() {
     document.getElementById("optionsButtons").querySelectorAll("button").forEach(button => {
         button.disabled = false;
@@ -283,7 +228,6 @@ function enableButtons() {
     document.querySelector(".btn-dark").disabled = false;
 }
 
-// 📌 Grafiği oluştur
 function drawChart(stockData) {
     const ctx = document.getElementById("stockChart").getContext("2d");
 
@@ -294,42 +238,22 @@ function drawChart(stockData) {
     const dataLimit = timeframe === "5Y" ? 1825 : timeframe === "3Y" ? 1095 :
                       timeframe === "1Y" ? 365 : timeframe === "3M" ? 90 : 30;
 
-    let filteredData = stockData.slice(-dataLimit);
+    const limitedData = stockData.slice(0, dataLimit);
 
-    const chartConfig = {
+    window.stockChartInstance = new Chart(ctx, {
         type: "line",
         data: {
-            labels: filteredData.map(d => formatDate(d.date)), // Burada tarihleri formatlıyoruz
+            labels: limitedData.map(entry => formatDate(entry.date.getTime() / 1000)),
             datasets: [{
-                label: "Hisse Fiyatı",
-                data: filteredData.map(d => d.price),
-                borderColor: "#000000", // Siyah çizgi
+                label: selectedStock,
+                data: limitedData.map(entry => entry.price),
+                borderColor: "rgba(75, 192, 192, 1)",
                 borderWidth: 2,
                 fill: false,
-                tension: 0.2,
-                pointRadius: 0,
-            }],
-        },
-        options: {
-            responsive: true,
-            scales: {
-                x: { 
-                    grid: { display: true }, 
-                    ticks: { 
-                        autoSkip: true, 
-                        maxTicksLimit: 10, 
-                        maxRotation: 0,    
-                        minRotation: 0,
-                    },
-                },
-                y: { grid: { display: false } },
-            },
-            plugins: { legend: { display: false } },
-        },
-    };
-
-    window.stockChartInstance = new Chart(ctx, chartConfig);
+            }]
+        }
+    });
 }
 
-// 📌 Oyunu başlat
+// Sayfa yüklemede ilk hisseyi oluştur
 generateStock();
