@@ -25,7 +25,7 @@ function formatDate(timestamp) {
 
 // 📌 Hisse fiyatlarını Yahoo Finance API ile çekmek için bir fonksiyon
 async function fetchStockData(stockSymbol) {
-    const endpoint = `https://guesstockcom.herokuapp.com/stock-data/${stockSymbol}`;
+    const endpoint = `https://guesstock-com.onrender.com/api/stock-data/${stockSymbol}`;
     const response = await fetch(endpoint);
     const data = await response.json();
 
