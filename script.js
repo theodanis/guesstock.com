@@ -1,3 +1,4 @@
+let selectedCountry = "US"; 
 let selectedStock = "";
 let timeframe = "5Y";
 let score = 0;
@@ -78,6 +79,7 @@ const STOCKS_TR = [
     "PETKM.IS", "TUPRS.IS", "ZOREN.IS", "VERUS.IS", "BIMAS.IS"
 ];
 
+let selectedCountry = "US"; 
 let selectedMarket = "US"; // Default olarak US seçili
 
 function changeStockMarket() {
