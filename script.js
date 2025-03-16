@@ -4,7 +4,42 @@ let timeframe = "5Y";
 let score = 0;
 let optionsSelected = false;  // Şık seçildi mi kontrol etmek için
 let gameEnded = false; // Oyun bitti mi kontrol etmek için
+let totalQuestions = 0; // Kullanıcının seçtiği soru sayısı
+let currentQuestion = 0;
+function setQuestionCount() {
+    totalQuestions = parseInt(document.getElementById("questionCount").value);
+    if (totalQuestions > 0) {
+        currentQuestion = 0;  // Soru sıfırlanır
+        score = 0;  // Puan sıfırlanır
+        document.getElementById("score").textContent = score;
+        startGame();
+    } else {
+        alert("Lütfen geçerli bir soru sayısı girin.");
+    }
+}
 
+// Oyun başladığında ilk soruyu oluştur
+function startGame() {
+    resetGame();
+    generateStock();
+}
+
+// Oyun sonunda pop-up gösterme
+function showFinalScore() {
+    document.getElementById("finalScore").textContent = score;
+    const scorePopup = new bootstrap.Modal(document.getElementById('scorePopup'));
+    scorePopup.show();
+}
+
+// Oyun bitişini kontrol et
+function endGame() {
+    currentQuestion++;
+    if (currentQuestion >= totalQuestions) {
+        showFinalScore();
+    } else {
+        resetGame();
+    }
+}
 // 📌 Zaman formatını asdsyarlama fonksiyonu
 function formatDate(timestamp) {
     const date = new Date(timestamp * 1000); // Unix timestamp'ı milisaniyeye çevir
@@ -141,6 +176,25 @@ function generateOptions() {
     document.querySelector(".btn-dark").disabled = true;
     document.getElementById("guessInput").disabled = true;
 }
+function checkGuess() {
+    if (gameEnded || optionsSelected) return;
+
+    const guess = document.getElementById("guessInput").value.toUpperCase();
+    const message = document.getElementById("resultMessage");
+
+    if (guess === selectedStock) {
+        message.textContent = "✅ Doğru Tahmin! +3 Puan";
+        message.style.color = "green";
+        score += 3;
+    } else {
+        message.textContent = `❌ Yanlış! Doğru cevap: ${selectedStock} (-3 Puan)`;
+        message.style.color = "red";
+        score -= 3;
+    }
+
+    document.getElementById("score").textContent = score;
+    endGame();
+}
 
 function checkOptionGuess(selected) {
     if (gameEnded) return;
@@ -165,25 +219,6 @@ function checkOptionGuess(selected) {
     disableButtons();
 }
 
-function checkGuess() {
-    if (gameEnded || optionsSelected) return;
-
-    const guess = document.getElementById("guessInput").value.toUpperCase();
-    const message = document.getElementById("resultMessage");
-
-    if (guess === selectedStock) {
-        message.textContent = "✅ Doğru Tahmin! +3 Puan";
-        message.style.color = "green";
-        score += 3;
-    } else {
-        message.textContent = `❌ Yanlış! Doğru cevap: ${selectedStock} (-3 Puan)`;
-        message.style.color = "red";
-        score -= 3;
-    }
-
-    document.getElementById("score").textContent = score;
-    endGame();
-}
 
 function endGame() {
     document.getElementById("guessInput").classList.add("d-none");
