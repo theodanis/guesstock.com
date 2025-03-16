@@ -71,6 +71,16 @@ async function fetchStockData(stockSymbol) {
             });
         }
     }
+    // 5 yıl için veri: Son 1825 gün
+if (timeframe === "5Y") {
+    for (let i = 0; i < 1825; i++) {
+        dummyData.push({
+            date: currentDate - (i * 86400),
+            price: Math.random() * 1000,
+        });
+    }
+}
+
 
     // Veriyi formatlayıp geri döndür
     const stockData = dummyData.map(entry => ({
