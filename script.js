@@ -89,22 +89,24 @@ function changeStockMarket() {
 
 // 📌 Hisseyi rastgele seçme fonksiyonu
 async function generateStock() {
-    let stockList = selectedCountry === 'TR' ? STOCKS_TR : STOCKS_US;
-    selectedStock = stockList[Math.floor(Math.random() * stockList.length)];
-    const stockData = await fetchStockData(selectedStock);
+    let stockList = selectedCountry === 'TR' ? STOCKS_TR : STOCKS_US;  // TR veya US hissesi
+    selectedStock = stockList[Math.floor(Math.random() * stockList.length)];  // Rastgele hisse seç
+    const stockData = await fetchStockData(selectedStock);  // Hisse verisini çek
 
     if (stockData.length > 0) {
-        drawChart(stockData);
+        drawChart(stockData);  // Grafiği çiz
     } else {
         alert("Hisse verileri alınamadı!");
     }
 
+    // Başlangıç temizlik işlemleri
     document.getElementById("resultMessage").textContent = "";
     document.getElementById("guessInput").value = "";
     document.getElementById("retryButton").classList.add("d-none");
     document.getElementById("optionsContainer").classList.add("d-none");
-    enableButtons();
+    enableButtons();  // Şıklar aktifken, tahmin butonlarını da aktif yap
 }
+
 
 // 📌 Şık oluşturma fonksiyonu
 function generateOptions() {
@@ -245,7 +247,7 @@ function drawChart(stockData) {
         data: {
             labels: limitedData.map(entry => formatDate(entry.date.getTime() / 1000)),
             datasets: [{
-                label: selectedStock,
+                label: "",
                 data: limitedData.map(entry => entry.price),
                 borderColor: "rgba(75, 192, 192, 1)",
                 borderWidth: 2,
