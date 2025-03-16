@@ -13,11 +13,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-
-    <div class="d-flex justify-content-center mb-3">
-    <label for="questionCount" class="fw-bold me-2">Kaç soru istiyorsunuz?</label>
-    <input type="number" id="questionCount" class="form-control w-auto" min="1" placeholder="Soru Sayısı" onchange="setQuestionCount()">
+<div class="container" style="position: relative;">
+    <button id="askButton" class="btn btn-primary" onclick="setQuestionCount()">
+        Soruyu Başlat
+    </button>
+    <!-- Diğer içerikler -->
 </div>
+
 
 
 <div class="container mt-5">
