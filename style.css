@@ -88,3 +88,16 @@ canvas {
     display: flex;
     justify-content: center;
 }
+
+
+.container {
+    position: relative;  /* Container'ı relative yapıyoruz */
+}
+
+#askButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000; /* Butonun diğer içeriklerin üstünde olmasını sağlar */
+}
+
