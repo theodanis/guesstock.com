@@ -24,26 +24,63 @@ function formatDate(timestamp) {
 }
 
 // 📌 Hisse fiyatlarını Yahoo Finance API ile çekmek için bir fonksiyon
+// 📌 Hisse fiyatlarını almak için dummy (sahte) veri
 async function fetchStockData(stockSymbol) {
-    const endpoint = `https://guesstock-com.onrender.com/api/stock-data/${stockSymbol}`;
-    const response = await fetch(endpoint, {
-        method: 'GET',
-        mode: 'no-cors', // CORS hatalarını engellemek için no-cors kullan
-    });
-    const data = await response.json();
+    // Dummy veri oluşturuyoruz
+    const currentDate = Math.floor(Date.now() / 1000); // Şu anki zaman, Unix timestamp olarak
 
-    if (data.length > 0) {
-        const stockData = data.map(entry => ({
-            date: new Date(entry.date * 1000), // Unix timestamp'ini milisaniyeye çeviriyoruz
-            price: entry.price,
-        })).filter(entry => entry.price !== null); // Null değerleri filtrele
+    // 1 ay, 3 ay, 1 yıl ve 3 yıl için dummy fiyat verileri
+    let dummyData = [];
 
-        return stockData;
-    } else {
-        console.error("Veri hatası:", data);
-        return [];
+    // 1 ay için veri: Son 30 gün
+    if (timeframe === "1M" || timeframe === "3M" || timeframe === "1Y" || timeframe === "3Y") {
+        for (let i = 0; i < 30; i++) {
+            dummyData.push({
+                date: currentDate - (i * 86400), // 86400 saniye bir gün eder
+                price: Math.random() * 1000, // Rastgele fiyat
+            });
+        }
     }
+
+    // 3 ay için veri: Son 90 gün
+    if (timeframe === "3M" || timeframe === "1Y" || timeframe === "3Y") {
+        for (let i = 0; i < 90; i++) {
+            dummyData.push({
+                date: currentDate - (i * 86400), // 86400 saniye bir gün eder
+                price: Math.random() * 1000, // Rastgele fiyat
+            });
+        }
+    }
+
+    // 1 yıl için veri: Son 365 gün
+    if (timeframe === "1Y" || timeframe === "3Y") {
+        for (let i = 0; i < 365; i++) {
+            dummyData.push({
+                date: currentDate - (i * 86400), // 86400 saniye bir gün eder
+                price: Math.random() * 1000, // Rastgele fiyat
+            });
+        }
+    }
+
+    // 3 yıl için veri: Son 1095 gün
+    if (timeframe === "3Y") {
+        for (let i = 0; i < 1095; i++) {
+            dummyData.push({
+                date: currentDate - (i * 86400), // 86400 saniye bir gün eder
+                price: Math.random() * 1000, // Rastgele fiyat
+            });
+        }
+    }
+
+    // Veriyi formatlayıp geri döndür
+    const stockData = dummyData.map(entry => ({
+        date: new Date(entry.date * 1000), // Unix timestamp'ini milisaniyeye çeviriyoruz
+        price: entry.price,
+    })).filter(entry => entry.price !== null); // Null değerleri filtrele
+
+    return stockData;
 }
+
 
 // 📌 Zaman dilimini değiştir
 function setTimeframe(tf) {
