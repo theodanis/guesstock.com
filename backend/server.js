@@ -6,15 +6,9 @@ const PORT = process.env.PORT || 3000;
 
 // CORS yapılandırması
 const corsOptions = {
-<<<<<<< HEAD
-  origin: '*', // Geçici olarak herkese açıyoruz, testten sonra domain'i belirtebilirsin
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Access-Control-Allow-Origin'],
-=======
   origin: 'https://www.guesstock.com', // Yalnızca bu domain'e izin ver
   methods: ['GET', 'POST'], // İzin verilen HTTP metotları
   allowedHeaders: ['Content-Type'], // İzin verilen başlıklar
->>>>>>> e9cdd12 (changed)
 };
 
 app.use(cors(corsOptions)); // CORS'u aktif hale getir
