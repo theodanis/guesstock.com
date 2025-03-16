@@ -14,10 +14,14 @@
 </head>
 <body>
 <div class="container mt-5" style="position: relative;">
-    <!-- Soruyu başlat butonu -->
-    <button id="askButton" class="btn btn-primary" onclick="setQuestionCount()" style="position: absolute; top: 10px; left: 10px;">
-        Soru Sayısı 
-    </button>
+<div class="d-flex justify-content-start">
+    <label for="questionCountSelect" class="fw-bold me-2">Soru Sayısı:</label>
+    <select id="questionCountSelect" class="form-select" onchange="setQuestionCount()">
+        <option value="3">3</option>
+        <option value="5">5</option>
+        <option value="7">7</option>
+    </select>
+</div>
 
 
 <div class="container mt-5">
