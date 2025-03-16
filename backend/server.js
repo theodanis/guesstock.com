@@ -1,12 +1,14 @@
 const express = require('express');
 const axios = require('axios');
-const cors = require('cors');
+const cors = require('cors'); // CORS middleware
 
 const app = express();
-const port = process.env.PORT || 3000; // Render'a uygun port
+const port = process.env.PORT || 3000; // Render’a uygun port
 
-// CORS middleware
-app.use(cors());
+// CORS middleware: Sadece guesstock.com'dan gelen isteklere izin veriyoruz
+app.use(cors({
+  origin: 'https://www.guesstock.com'
+}));
 
 // API route'u
 app.get('/api/stock-data/:stockSymbol', async (req, res) => {
@@ -22,7 +24,7 @@ app.get('/api/stock-data/:stockSymbol', async (req, res) => {
   }
 });
 
-// Sunucuyu başlatıyoruz
+// Sunucu başlatma
 app.listen(port, () => {
   console.log(`Sunucu http://localhost:${port} adresinde çalışıyor.`);
 });
