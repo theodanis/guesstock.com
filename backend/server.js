@@ -9,7 +9,7 @@ const corsOptions = {
   origin: 'https://www.guesstock.com', // Yalnızca bu domain'e izin ver
   methods: ['GET', 'POST'], // İzin verilen HTTP metotları
   allowedHeaders: ['Content-Type'], // İzin verilen başlıklar
-  credentials: true, // Eğer cookies kullanıyorsanız, bu gerekli olabilir
+  credentials: true, // Cookies ve kimlik doğrulama gerekirse bu gerekli
 };
 
 app.use(cors(corsOptions)); // CORS'u aktif hale getir
@@ -35,6 +35,14 @@ app.get('/stock-data/:symbol', async (req, res) => {
         console.error("API hatası:", error.message);
         res.status(500).json({ message: 'API hatası', error: error.message });
     }
+});
+
+// Sunucu başlıklarını manuel olarak ekleyelim (Alternatif çözüm)
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://www.guesstock.com'); // Yalnızca bu domain'e izin ver
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST'); // İzin verilen metotlar
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); // İzin verilen başlıklar
+  next();
 });
 
 app.listen(PORT, () => {
