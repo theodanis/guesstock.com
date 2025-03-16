@@ -26,7 +26,10 @@ function formatDate(timestamp) {
 // 📌 Hisse fiyatlarını Yahoo Finance API ile çekmek için bir fonksiyon
 async function fetchStockData(stockSymbol) {
     const endpoint = `https://guesstock-com.onrender.com/api/stock-data/${stockSymbol}`;
-    const response = await fetch(endpoint);
+    const response = await fetch(endpoint, {
+        method: 'GET',
+        mode: 'no-cors', // CORS hatalarını engellemek için no-cors kullan
+    });
     const data = await response.json();
 
     if (data.length > 0) {
