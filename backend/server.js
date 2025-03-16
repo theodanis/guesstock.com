@@ -6,17 +6,12 @@ const PORT = process.env.PORT || 3000;
 
 // CORS yapılandırması
 const corsOptions = {
-  origin: '*', // Yalnızca bu domain'e izin ver
-  methods: ['GET', 'POST'], // İzin verilen HTTP metotları
+  origin: 'https://www.guesstock.com', // Yalnızca bu domain'e izin ver
+  methods: ['GET', 'POST', 'OPTIONS'], // İzin verilen HTTP metotları
   allowedHeaders: ['Content-Type'], // İzin verilen başlıklar
 };
 
-app.use(cors(corsOptions)); // CORS'u aktif hale getir
-
-// Ana sayfa rotası (GET /)
-app.get('/', (req, res) => {
-    res.send('Merhaba, dünya!');  // Ana sayfa için basit bir yanıt
-});
+app.use(cors(corsOptions)); // Tüm API'lerde CORS'u aktif hale getirin
 
 // API endpoint'iniz
 app.get('/stock-data/:symbol', async (req, res) => {
