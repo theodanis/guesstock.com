@@ -1,50 +1,28 @@
-const cors = require('cors');
 const express = require('express');
 const axios = require('axios');
+const cors = require('cors');
+
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 3000; // Render'a uygun port
 
-// CORS yapılandırması
-const corsOptions = {
-  origin: 'https://www.guesstock.com', // Yalnızca bu domain'e izin ver
-  methods: ['GET', 'POST'], // İzin verilen HTTP metotları
-  allowedHeaders: ['Content-Type'], // İzin verilen başlıklar
-  credentials: true, // Cookies ve kimlik doğrulama gerekirse bu gerekli
-};
+// CORS middleware
+app.use(cors());
 
-app.use(cors(corsOptions)); // CORS'u aktif hale getir
+// API route'u
+app.get('/api/stock-data/:stockSymbol', async (req, res) => {
+  const { stockSymbol } = req.params; // Stock symbol'ı URL parametresinden alıyoruz
 
-// API endpoint'iniz
-app.get('/stock-data/:symbol', async (req, res) => {
-    const stockSymbol = req.params.symbol.toUpperCase(); // Hisse kodunu büyük harfe çevir
-
-    try {
-        const response = await axios.get(`https://query1.finance.yahoo.com/v8/finance/chart/${stockSymbol}?interval=1d&range=5y`);
-        const data = response.data;
-
-        if (data.chart && data.chart.result) {
-            const stockData = data.chart.result[0].timestamp.map((timestamp, index) => ({
-                date: new Date(timestamp * 1000),
-                price: data.chart.result[0].indicators.quote[0].close[index],
-            }));
-            res.json(stockData);
-        } else {
-            res.status(500).json({ message: 'Veri alınamadı' });
-        }
-    } catch (error) {
-        console.error("API hatası:", error.message);
-        res.status(500).json({ message: 'API hatası', error: error.message });
-    }
+  try {
+    const response = await axios.get(`https://query1.finance.yahoo.com/v8/finance/chart/${stockSymbol}?interval=1d&range=5y`);
+    const data = response.data;
+    res.json(data); // API'den aldığımız veriyi frontend'e gönderiyoruz
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Veri çekme hatası' });
+  }
 });
 
-// Sunucu başlıklarını manuel olarak ekleyelim (Alternatif çözüm)
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'https://www.guesstock.com'); // Yalnızca bu domain'e izin ver
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST'); // İzin verilen metotlar
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type'); // İzin verilen başlıklar
-  next();
-});
-
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+// Sunucuyu başlatıyoruz
+app.listen(port, () => {
+  console.log(`Sunucu http://localhost:${port} adresinde çalışıyor.`);
 });
