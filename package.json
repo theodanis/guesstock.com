@@ -4,17 +4,17 @@
   "description": "A stock guess game",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",  // Sunucuyu başlatacak komut
-    "build": "echo \"No build step required\" && exit 0"  // Eğer React frontend kullanmıyorsan build gerekmez
+    "start": "node server.js",
+    "build": "echo \"No build step required\" && exit 0"
   },
   "dependencies": {
-    "express": "^4.17.1",  // Express sunucu bağımlılığı
-    "axios": "^0.21.1",    // API'den veri çekmek için Axios
-    "cors": "^2.8.5"       // CORS hatalarını engellemek için CORS bağımlılığı
+    "express": "^4.17.1",
+    "axios": "^0.21.1",
+    "cors": "^2.8.5"
   },
   "devDependencies": {},
   "engines": {
-    "node": "14.x"  // Render'da Node.js 14.x sürümünü kullanıyoruz
+    "node": "14.x"
   },
   "author": "",
   "license": "ISC"
