@@ -1,4 +1,3 @@
-let selectedMarket = "US"; 
 let selectedStock = "";
 let timeframe = "5Y";
 let score = 0;
