@@ -3,55 +3,8 @@ let selectedStock = "";
 let timeframe = "5Y";
 let score = 0;
 let optionsSelected = false;  // Şık seçildi mi kontrol etmek için
-let totalQuestions = 0; // Kullanıcının seçtiği soru sayısı
-let currentQuestion = 0; // Şu anki soru numarası
-let gameEnded = false;  // Oyun bitti mi kontrol etmek için
-function setQuestionCount() {
-    // Kullanıcıdan soru sayısı al veya ayarla
-    let questionCount = prompt("Kaç soru sormak istersiniz?", "3");
-    
-    // Eğer geçerli bir sayı girildiyse
-    if (questionCount && !isNaN(questionCount)) {
-        questionCount = parseInt(questionCount);
-        if (questionCount > 0) {
-            alert(`Seçilen soru sayısı: ${questionCount}`);
-            // Burada, seçilen soru sayısını kullanarak oyun ayarlarını güncelleyebilirsiniz
-            // Örneğin, bir global değişkene atama
-            totalQuestions = questionCount;
-            startGame();
-        } else {
-            alert("Lütfen geçerli bir sayı girin.");
-        }
-    } else {
-        alert("Geçersiz bir giriş. Lütfen sayısal bir değer girin.");
-    }
-}
+let gameEnded = false; // Oyun bitti mi kontrol etmek için
 
-
-// Oyun başladığında ilk soruyu oluştur
-function startGame() {
-    resetGame();
-    generateStock();
-}
-
-
-function showFinalScore() {
-    document.getElementById("finalScore").textContent = score;
-    const scorePopup = new bootstrap.Modal(document.getElementById('scorePopup'));
-    scorePopup.show();
-}
-// Oyun bitişini kontrol et
-
-// Oyun bitişini kontrol et
-function endGame() {
-    currentQuestion++;  // Bir soru tamamlandığında numarayı artır
-    if (currentQuestion >= totalQuestions) {
-        showFinalScore();  // Tüm sorular bittiyse popup göster
-        gameEnded = true;   // Oyun bitti
-    } else {
-        resetGame();  // Yeni soru oluştur
-    }
-}
 // 📌 Zaman formatını asdsyarlama fonksiyonu
 function formatDate(timestamp) {
     const date = new Date(timestamp * 1000); // Unix timestamp'ı milisaniyeye çevir
@@ -188,25 +141,6 @@ function generateOptions() {
     document.querySelector(".btn-dark").disabled = true;
     document.getElementById("guessInput").disabled = true;
 }
-function checkGuess() {
-    if (gameEnded || optionsSelected) return;  // Oyun bitti veya seçenek seçildiyse işlem yapma
-
-    const guess = document.getElementById("guessInput").value.toUpperCase();
-    const message = document.getElementById("resultMessage");
-
-    if (guess === selectedStock) {
-        message.textContent = "✅ Doğru Tahmin! +3 Puan";
-        message.style.color = "green";
-        score += 3;
-    } else {
-        message.textContent = `❌ Yanlış! Doğru cevap: ${selectedStock} (-3 Puan)`;
-        message.style.color = "red";
-        score -= 3;
-    }
-
-    document.getElementById("score").textContent = score;
-    endGame();  // Soruyu bitir
-}
 
 function checkOptionGuess(selected) {
     if (gameEnded) return;
@@ -224,12 +158,32 @@ function checkOptionGuess(selected) {
     }
 
     document.getElementById("score").textContent = score;
-    optionsSelected = true;  // Seçenekler seçildi
+    optionsSelected = true;
+
     document.getElementById("retryButton").classList.remove("d-none");
-    gameEnded = true;  // Oyun bitti
-    disableButtons();  // Butonları devre dışı bırak
+    gameEnded = true;
+    disableButtons();
 }
 
+function checkGuess() {
+    if (gameEnded || optionsSelected) return;
+
+    const guess = document.getElementById("guessInput").value.toUpperCase();
+    const message = document.getElementById("resultMessage");
+
+    if (guess === selectedStock) {
+        message.textContent = "✅ Doğru Tahmin! +3 Puan";
+        message.style.color = "green";
+        score += 3;
+    } else {
+        message.textContent = `❌ Yanlış! Doğru cevap: ${selectedStock} (-3 Puan)`;
+        message.style.color = "red";
+        score -= 3;
+    }
+
+    document.getElementById("score").textContent = score;
+    endGame();
+}
 
 function endGame() {
     document.getElementById("guessInput").classList.add("d-none");
