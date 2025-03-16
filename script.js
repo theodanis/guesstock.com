@@ -161,6 +161,7 @@ function generateOptions() {
 
     // Take Clues butonunu devre dışı bırakıyoruz
     document.querySelector(".btn-warning").disabled = true;
+    document.querySelector(".btn-dark").disabled = true;
     document.getElementById("guessInput").disabled = true;  // Input'u da devre dışı bırak
 }
 
