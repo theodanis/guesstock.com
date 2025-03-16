@@ -26,69 +26,37 @@ function formatDate(timestamp) {
 // 📌 Hisse fiyatlarını Yahoo Finance API ile çekmek için bir fonksiyon
 // 📌 Hisse fiyatlarını almak için dummy (sahte) veri
 async function fetchStockData(stockSymbol) {
-    // Dummy veri oluşturuyoruz
     const currentDate = Math.floor(Date.now() / 1000); // Şu anki zaman, Unix timestamp olarak
-
-    // 1 ay, 3 ay, 1 yıl ve 3 yıl için dummy fiyat verileri
     let dummyData = [];
+    let step = 1; // Varsayılan olarak her gün veri ekle
 
-    // 1 ay için veri: Son 30 gün
-    if (timeframe === "1M" || timeframe === "3M" || timeframe === "1Y" || timeframe === "3Y") {
-        for (let i = 0; i < 30; i++) {
-            dummyData.push({
-                date: currentDate - (i * 86400), // 86400 saniye bir gün eder
-                price: Math.random() * 1000, // Rastgele fiyat
-            });
-        }
-    }
+    // Seçilen zaman dilimine göre örnekleme adımını belirle
+    if (timeframe === "3M") step = 3; // 3 günde bir
+    if (timeframe === "1Y") step = 14; // 14 günde bir
+    if (timeframe === "3Y") step = 30; // 30 günde bir
+    if (timeframe === "5Y") step = 60; // 60 günde bir
 
-    // 3 ay için veri: Son 90 gün
-    if (timeframe === "3M" || timeframe === "1Y" || timeframe === "3Y") {
-        for (let i = 0; i < 90; i++) {
-            dummyData.push({
-                date: currentDate - (i * 86400), // 86400 saniye bir gün eder
-                price: Math.random() * 1000, // Rastgele fiyat
-            });
-        }
-    }
+    // Kaç gün geriye gidileceğini belirle
+    const totalDays = {
+        "1M": 30,
+        "3M": 90,
+        "1Y": 365,
+        "3Y": 1095,
+        "5Y": 1825
+    }[timeframe];
 
-    // 1 yıl için veri: Son 365 gün
-    if (timeframe === "1Y" || timeframe === "3Y") {
-        for (let i = 0; i < 365; i++) {
-            dummyData.push({
-                date: currentDate - (i * 86400), // 86400 saniye bir gün eder
-                price: Math.random() * 1000, // Rastgele fiyat
-            });
-        }
-    }
-
-    // 3 yıl için veri: Son 1095 gün
-    if (timeframe === "3Y") {
-        for (let i = 0; i < 1095; i++) {
-            dummyData.push({
-                date: currentDate - (i * 86400), // 86400 saniye bir gün eder
-                price: Math.random() * 1000, // Rastgele fiyat
-            });
-        }
-    }
-    // 5 yıl için veri: Son 1825 gün
-if (timeframe === "5Y") {
-    for (let i = 0; i < 1825; i++) {
+    for (let i = 0; i < totalDays; i += step) {
         dummyData.push({
             date: currentDate - (i * 86400),
-            price: Math.random() * 1000,
+            price: Math.random() * 1000, // Rastgele fiyat
         });
     }
-}
 
-
-    // Veriyi formatlayıp geri döndür
-    const stockData = dummyData.map(entry => ({
-        date: new Date(entry.date * 1000), // Unix timestamp'ini milisaniyeye çeviriyoruz
-        price: entry.price,
-    })).filter(entry => entry.price !== null); // Null değerleri filtrele
-
-    return stockData;
+    // Veriyi tarih sırasına göre düzenleyip döndür
+    return dummyData.reverse().map(entry => ({
+        date: new Date(entry.date * 1000),
+        price: entry.price
+    }));
 }
 
 
