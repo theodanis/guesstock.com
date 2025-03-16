@@ -7,14 +7,23 @@ let totalQuestions = 0; // Kullanıcının seçtiği soru sayısı
 let currentQuestion = 0; // Şu anki soru numarası
 let gameEnded = false;  // Oyun bitti mi kontrol etmek için
 function setQuestionCount() {
-    totalQuestions = parseInt(document.getElementById("questionCount").value);
-    if (totalQuestions > 0) {
-        currentQuestion = 0;  // Soru sıfırlanır
-        score = 0;  // Puan sıfırlanır
-        document.getElementById("score").textContent = score;
-        startGame();
+    // Kullanıcıdan soru sayısı al veya ayarla
+    let questionCount = prompt("Kaç soru sormak istersiniz?", "3");
+    
+    // Eğer geçerli bir sayı girildiyse
+    if (questionCount && !isNaN(questionCount)) {
+        questionCount = parseInt(questionCount);
+        if (questionCount > 0) {
+            alert(`Seçilen soru sayısı: ${questionCount}`);
+            // Burada, seçilen soru sayısını kullanarak oyun ayarlarını güncelleyebilirsiniz
+            // Örneğin, bir global değişkene atama
+            totalQuestions = questionCount;
+            startGame();
+        } else {
+            alert("Lütfen geçerli bir sayı girin.");
+        }
     } else {
-        alert("Lütfen geçerli bir soru sayısı girin.");
+        alert("Geçersiz bir giriş. Lütfen sayısal bir değer girin.");
     }
 }
 
