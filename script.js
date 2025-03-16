@@ -79,7 +79,6 @@ const STOCKS_TR = [
     "PETKM.IS", "TUPRS.IS", "ZOREN.IS", "VERUS.IS", "BIMAS.IS"
 ];
 
-let selectedCountry = "US"; 
 let selectedMarket = "US"; // Default olarak US seçili
 
 function changeStockMarket() {
