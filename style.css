@@ -17,25 +17,23 @@ h1 {
     color: #212529;
 }
 .country-dropdown {
-    width: 120px;
+    width: 80px;  /* Daha kısa ve düzenli görünmesi için küçültüldü */
     text-align: center;
     font-weight: bold;
-}
-
-.d-flex.justify-content-center.align-items-center {
-    gap: 10px;
-}
-
-.country-dropdown {
+    padding: 5px;
     border-radius: 8px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
 
+
 .country-dropdown:hover {
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+.d-flex.justify-content-center.align-items-center {
+    gap: 8px;
+}
 
 .chart-container {
     position: relative;
