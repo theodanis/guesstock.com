@@ -13,6 +13,11 @@ const corsOptions = {
 
 app.use(cors(corsOptions)); // CORS'u aktif hale getir
 
+// Ana sayfa rotası (GET /)
+app.get('/', (req, res) => {
+    res.send('Merhaba, dünya!');  // Ana sayfa için basit bir yanıt
+});
+
 // API endpoint'iniz
 app.get('/stock-data/:symbol', async (req, res) => {
     const stockSymbol = req.params.symbol.toUpperCase(); // Hisse kodunu büyük harfe çevir
