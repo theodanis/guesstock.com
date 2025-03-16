@@ -253,9 +253,24 @@ function drawChart(stockData) {
                 borderWidth: 2,
                 fill: false,
             }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    enabled: false // Tooltip'i devre dışı bırakıyoruz
+                },
+                legend: {
+                    display: false // Legend'i devre dışı bırakıyoruz
+                }
+            },
+            elements: {
+                point: {
+                    radius: 0 // Noktaları gizliyoruz
+                }
+            }
         }
     });
 }
-
 // Sayfa yüklemede ilk hisseyi oluştur
 generateStock();
