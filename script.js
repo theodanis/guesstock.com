@@ -1,4 +1,4 @@
-let selectedCountry = "US"; 
+let selectedMarket = "US"; 
 let selectedStock = "";
 let timeframe = "5Y";
 let score = 0;
@@ -89,7 +89,7 @@ function changeStockMarket() {
 
 // 📌 Hisseyi rastgele seçme fonksiyonu
 async function generateStock() {
-    let stockList = selectedCountry === 'TR' ? STOCKS_TR : STOCKS_US;  // TR veya US hissesi
+    let stockList = selectedMarket === 'TR' ? STOCKS_TR : STOCKS_US;  // TR veya US hissesi
     selectedStock = stockList[Math.floor(Math.random() * stockList.length)];  // Rastgele hisse seç
     const stockData = await fetchStockData(selectedStock);  // Hisse verisini çek
 
@@ -111,7 +111,7 @@ async function generateStock() {
 // 📌 Şık oluşturma fonksiyonu
 function generateOptions() {
     let options = new Set();
-    let stockList = selectedCountry === 'TR' ? STOCKS_TR : STOCKS_US;
+    let stockList = selectedMarket === 'TR' ? STOCKS_TR : STOCKS_US;
 
     options.add(selectedStock);
 
