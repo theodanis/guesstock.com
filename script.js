@@ -82,7 +82,7 @@ const STOCKS_TR = [
 let selectedMarket = "US"; // Default olarak US seçili
 
 function changeStockMarket() {
-    selectedMarket = document.getElementById("stockSelect").value;
+    selectedMarket = document.getElementById("countrySelect").value;
     resetGame();
     generateStock();
 }
