@@ -100,4 +100,47 @@ canvas {
     left: 10px;
     z-index: 1000; /* Butonun diğer içeriklerin üstünde olmasını sağlar */
 }
+/* Yeni Dropdown Menüsü için stil */
+/* Yeni Dropdown Menüsü için stil */
+.container {
+    position: relative; /* Dropdown için container'ı relative yapıyoruz */
+}
+
+/* Dropdown menüsü */
+.dropdown-container {
+    position: absolute;
+    top: 20px;
+    left: 10;  /* Başlıkla hizalı olacak şekilde sola konumlandırdık */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+    z-index: 10;
+}
+
+.dropdown-container label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #212529;
+}
+
+.number-dropdown {
+    width: 60px;  /* Genişliği daha uygun yapıyoruz */
+    padding: 8px;
+    border-radius: 8px;
+    font-weight: bold;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    transition: all 0.3s ease;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.number-dropdown:hover {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.number-dropdown:focus {
+    outline: none;
+    border-color: #007bff;
+}
 
