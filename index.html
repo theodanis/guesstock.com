@@ -13,10 +13,35 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <!-- Header (Üst Menü) -->
+    <header>
+        <nav>
+            <div class="container">
+                <ul>
+                    <li><a href="index.html">Anasayfa</a></li>
+                    <li><a href="about.html" class="nav-link active">Hakkında</a></li>
+                    <li><a href="contact.html">İletişim</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Popup Div -->
+<div id="scorePopup" class="popup">
+    <div class="popup-content">
+      <span id="closePopup" class="close">&times;</span>
+      <p id="scoreMessage">Skorunuz: 0</p>
+    </div>
+  </div>
+  
+
+
 
 
 <div class="container mt-5">
-    <div class="dropdown-container">
+        <!-- Yeni Dropdown -->
+<!-- Yeni Dropdown -->
+<div class="dropdown-container">
     <label for="numberDropdown" class="fw-bold">Number of Questions</label>
     <select id="numberDropdown" class="form-select number-dropdown">
         <option value="1">1</option>
