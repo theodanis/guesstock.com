@@ -187,37 +187,37 @@ canvas {
  /* Header - Üst Menü */
 header {
     background-color: #343a40 !important;
-    color: #fff;
-    padding: 20px 0;
-    text-align: center;
+    color: #fff !important;
+    padding: 20px 0 !important;
+    text-align: center !important;
 }
 
 header nav .container {
-    width: 80%;
-    margin: 0 auto;
+    width: 80% !important;
+    margin: 0 auto !important;
 }
 
 header nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    justify-content: center;
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
 }
 
 header nav ul li {
-    margin: 0 15px;
+    margin: 0 15px !important;
 }
 
 header nav ul li a {
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-    font-size: 16px;
-    transition: color 0.3s ease;
+    text-decoration: none !important;
+    color: #fff !important;
+    font-weight: bold !important;
+    font-size: 16px !important;
+    transition: color 0.3s ease !important;
 }
 
 header nav ul li a:hover,
 header nav ul li a.active {
-    color: #f8a71b;
+    color: #f8a71b !important;
 }
