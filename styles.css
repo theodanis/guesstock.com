@@ -1,0 +1,152 @@
+/* Temel Stil Ayarları */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fb;
+    color: #333;
+}
+
+/* Header - Üst Menü */
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+}
+
+header nav .container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+header nav ul li {
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+header nav ul li a:hover,
+header nav ul li a.active {
+    color: #f8a71b;
+}
+
+/* Hakkında Sayfası İçeriği */
+.about-section {
+    background-color: #fff;
+    padding: 60px 0;
+    text-align: center;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.about-section .container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.about-header {
+    margin-bottom: 50px;
+}
+
+.about-header h1 {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.about-header p {
+    font-size: 18px;
+    color: #777;
+    font-weight: 400;
+}
+
+/* Hakkında İçeriği */
+.about-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 40px;
+}
+
+.about-item {
+    background-color: #fafafa;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.3s ease;
+}
+
+.about-item:hover {
+    transform: translateY(-10px);
+}
+
+.about-item h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.about-item p {
+    font-size: 16px;
+    color: #555;
+}
+
+.about-item ul {
+    list-style: none;
+    padding: 0;
+}
+
+.about-item ul li {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.about-item ul li strong {
+    color: #f8a71b;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 60px;
+}
+
+footer .container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Responsif Tasarım */
+@media (max-width: 768px) {
+    header nav ul {
+        flex-direction: column;
+    }
+
+    header nav ul li {
+        margin: 10px 0;
+    }
+}
