@@ -186,7 +186,7 @@ canvas {
   }
  /* Header - Üst Menü */
 header {
-    background-color: #343a40;
+    background-color: #343a40 !important;
     color: #fff;
     padding: 20px 0;
     text-align: center;
